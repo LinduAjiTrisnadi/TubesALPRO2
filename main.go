@@ -304,7 +304,7 @@ func cariSequential(data *daftar, a *int){
 			if found == true {
 				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
 			} else {
-				fmt.Println("Nama perangkat tidak ditemukan!")
+				fmt.Println("Lokasi perangkat tidak ditemukan!")
 			}
 	}
 }
