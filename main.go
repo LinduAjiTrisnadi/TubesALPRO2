@@ -82,8 +82,8 @@ func menuCekData(data *daftar, a *int){
 			ubahData(data, a)
 		case 5:
 			cariSequential(data, a)
-		//case 6:
-		//	cariBinary(data, a)
+		case 6:
+			cariBinary(data, a)
 		case 7:
 			return
 		}
@@ -306,5 +306,122 @@ func cariSequential(data *daftar, a *int){
 			} else {
 				fmt.Println("Lokasi perangkat tidak ditemukan!")
 			}
+	}
+}
+func cariBinary(data *daftar, a *int){
+	var idx, pilih int
+	var target string
+	var kiri, kanan, tengah int
+	
+	fmt.Println()
+	fmt.Println("List data yang ingin dicari: ")
+	fmt.Println("1. Nama perangkat")
+	fmt.Println("2. Lokasi ruang perangkat ")
+	fmt.Println()
+	fmt.Print("Pilih Menu: ")
+	fmt.Scan(&pilih)
+	
+	switch pilih{
+		case 1:
+			SortNamaAscend(data, *a)
+			fmt.Println()
+			fmt.Print("Nama perangkat: ")
+			fmt.Scan(&target)
+			
+			kiri = 0
+			kanan = *a - 1
+			idx = -1 
+			
+			for kiri <= kanan {
+				tengah = (kiri + kanan) / 2
+				if data[tengah].nama == target {
+					idx = tengah 
+					break
+				}else if data[tengah].nama < target {
+					kiri = tengah + 1
+				}else {
+					kanan = tengah - 1
+				}
+			}	
+			if idx != -1 {
+				fmt.Println()
+				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+				fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
+				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+				for idx > -1 && data[idx].nama == target {
+					fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n", data[idx].id, data[idx].nama, (data[idx].watt * data[idx].durasi), data[idx].durasi, data[idx].ruangan)
+					idx = idx - 1
+				}
+				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+			}else {
+				fmt.Println("Nama perangkat tidak ditemukan!")
+			}
+			
+		case 2:
+			SortRuanganAscend(data, *a)
+			fmt.Println()
+			fmt.Print("Lokasi perangkat: ")
+			fmt.Scan(&target)
+			
+			kiri = 0
+			kanan = *a - 1
+			idx = -1 
+			
+			for kiri <= kanan {
+				tengah = (kiri + kanan) / 2
+				if data[tengah].ruangan == target {
+					idx = tengah 
+					break
+				}else if data[tengah].ruangan < target {
+					kiri = tengah + 1
+				}else {
+					kanan = tengah - 1
+				}
+			}	
+			if idx != -1 {
+				fmt.Println()
+				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+				fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
+				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+				for idx > -1 && data[idx].ruangan == target {
+					fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n", data[idx].id, data[idx].nama, (data[idx].watt * data[idx].durasi), data[idx].durasi, data[idx].ruangan)
+					idx = idx - 1
+				}
+				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+			}else {
+				fmt.Println("Lokasi perangkat tidak ditemukan!")
+			}
+	}
+}
+
+func SortNamaAscend(data *daftar, a int){
+	var i, j, idx int
+	var temp perangkat
+	for i = 0; i < a - 1; i++ {
+		idx = i
+		for j = i + 1; j < a; j++ {
+			if data[j].nama < data[idx].nama {
+				idx = j
+			}
+		}
+		temp = data[i]
+		data[i] = data[idx]
+		data[idx] = temp
+	}
+}
+
+func SortRuanganAscend(data *daftar, a int){
+	var i, j, idx int
+	var temp perangkat
+	for i = 0; i < a - 1; i++ {
+		idx = i
+		for j = i + 1; j < a; j++ {
+			if data[j].ruangan < data[idx].ruangan {
+				idx = j
+			}
+		}
+		temp = data[i]
+		data[i] = data[idx]
+		data[idx] = temp
 	}
 }
