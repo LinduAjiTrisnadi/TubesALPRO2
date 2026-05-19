@@ -139,6 +139,7 @@ func tambahData(data *daftar, a *int){
 	fmt.Println()
 	fmt.Print("Mau berapa banyak data: ")
 	fmt.Scan(&n)
+	fmt.Println()
 
 	if *a == NMAX {
 		fmt.Println("Data penuh!")
@@ -153,6 +154,7 @@ func tambahData(data *daftar, a *int){
 		for j = 0; j < i; j++ {
 			if data[i].id == data[j].id {
 				fmt.Println("Data duplikat, mohon inputkan data kembali!")
+				fmt.Println()
 				fmt.Print("Masukan ID: ")
 				fmt.Scan(&data[i].id)
 				j = -1 
@@ -169,6 +171,7 @@ func tambahData(data *daftar, a *int){
 		
 		fmt.Print("Masukan lokasi ruangan perangkat: ")
 		fmt.Scan(&data[i].ruangan)
+		fmt.Println()
 	}
 
 	*a = i
