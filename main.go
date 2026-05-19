@@ -5,11 +5,8 @@ import "fmt"
 const NMAX = 999
 
 type perangkat struct {
-	id int
-	nama string
-	watt int
-	durasi int
-	ruangan string
+	id, watt, durasi int
+	nama, ruangan string
 }
 
 type daftar [NMAX]perangkat
@@ -311,10 +308,11 @@ func cariSequential(data *daftar, a *int){
 			}
 	}
 }
+
 func cariBinary(data *daftar, a *int){
 	var idx, pilih int
 	var target string
-	var kiri, kanan, tengah int
+	var kiri, kanan, tengah, batasKanan, batasKiri int
 	
 	fmt.Println()
 	fmt.Println("List data yang ingin dicari: ")
@@ -333,31 +331,48 @@ func cariBinary(data *daftar, a *int){
 			
 			kiri = 0
 			kanan = *a - 1
-			idx = -1 
-			
+			idx = -1
 			for kiri <= kanan {
 				tengah = (kiri + kanan) / 2
 				if data[tengah].nama == target {
-					idx = tengah 
-					break
-				}else if data[tengah].nama < target {
+					idx = tengah
+					kanan = tengah - 1 
+				} else if data[tengah].nama < target {
 					kiri = tengah + 1
-				}else {
+				} else {
 					kanan = tengah - 1
 				}
-			}	
-			if idx != -1 {
+			}
+			batasKiri = idx
+
+			kiri = 0
+			kanan = *a - 1
+			idx = -1
+			for kiri <= kanan {
+				tengah = (kiri + kanan) / 2
+				if data[tengah].nama == target {
+					idx = tengah
+					kiri = tengah + 1 
+				} else if data[tengah].nama < target {
+					kiri = tengah + 1
+				} else {
+					kanan = tengah - 1
+				}
+			}
+			batasKanan = idx
+
+			if batasKiri != -1 {
 				fmt.Println()
 				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
 				fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
 				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-				for idx > -1 && data[idx].nama == target {
-					fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n", data[idx].id, data[idx].nama, (data[idx].watt * data[idx].durasi), data[idx].durasi, data[idx].ruangan)
-					idx = idx - 1
+				for i := batasKiri; i <= batasKanan; i++ {
+					fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",
+					data[i].id, data[i].nama, (data[i].watt*data[i].durasi), data[i].durasi, data[i].ruangan)
 				}
 				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-			}else {
-				fmt.Println("Nama perangkat tidak ditemukan!")
+			} else {
+				fmt.Println("Lokasi perangkat tidak ditemukan!")
 			}
 			
 		case 2:
@@ -368,30 +383,48 @@ func cariBinary(data *daftar, a *int){
 			
 			kiri = 0
 			kanan = *a - 1
-			idx = -1 
+			idx = -1
 			
 			for kiri <= kanan {
 				tengah = (kiri + kanan) / 2
 				if data[tengah].ruangan == target {
-					idx = tengah 
-					break
-				}else if data[tengah].ruangan < target {
+					idx = tengah
+					kanan = tengah - 1 
+				} else if data[tengah].ruangan < target {
 					kiri = tengah + 1
-				}else {
+				} else {
 					kanan = tengah - 1
 				}
-			}	
-			if idx != -1 {
+			}
+			batasKiri = idx
+
+			kiri = 0
+			kanan = *a - 1
+			idx = -1
+			for kiri <= kanan {
+				tengah = (kiri + kanan) / 2
+				if data[tengah].ruangan == target {
+					idx = tengah
+					kiri = tengah + 1 
+				} else if data[tengah].ruangan < target {
+					kiri = tengah + 1
+				} else {
+					kanan = tengah - 1
+				}
+			}
+			batasKanan = idx
+
+			if batasKiri != -1 {
 				fmt.Println()
 				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
 				fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
 				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-				for idx > -1 && data[idx].ruangan == target {
-					fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n", data[idx].id, data[idx].nama, (data[idx].watt * data[idx].durasi), data[idx].durasi, data[idx].ruangan)
-					idx = idx - 1
+				for i := batasKiri; i <= batasKanan; i++ {
+					fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",
+						data[i].id, data[i].nama, (data[i].watt*data[i].durasi), data[i].durasi, data[i].ruangan)
 				}
 				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-			}else {
+			} else {
 				fmt.Println("Lokasi perangkat tidak ditemukan!")
 			}
 	}
