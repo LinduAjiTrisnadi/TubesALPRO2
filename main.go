@@ -55,7 +55,8 @@ func menuCekData(data *daftar, a *int){
 		fmt.Println("4. Mengubah data")
 		fmt.Println("5. Mencari data menggunakan (Sequential Search)")
 		fmt.Println("6. Mencari data menggunakan (Binary Search)")
-		fmt.Println("7. Kembali")
+		fmt.Println("7. Mencari data tertinggi menggunakan(Selection)")
+		fmt.Println("8. Kembali")
 		
 		fmt.Println()
 		fmt.Print("Pilih Menu: ")
@@ -82,6 +83,8 @@ func menuCekData(data *daftar, a *int){
 		case 6:
 			cariBinary(data, a)
 		case 7:
+			menuSelection(data, a)
+		case 8:
 			return
 		}
 	}
@@ -175,31 +178,35 @@ func tambahData(data *daftar, a *int){
 	fmt.Println("Data perangkat baru sudah ditambahkan!")
 }
 
-func apusData(data *daftar, a *int){
+func apusData(data *daftar, a *int) {
 	var i, j, target int
 	var found bool
-	
+
 	fmt.Println()
 	fmt.Print("Masukan ID yang dihapus: ")
 	fmt.Scan(&target)
-	
-	for i = 0; i < *a; i++{
-		if data[i].id == target{
-			found =  true
-				
+
+	for i = 0; i < *a; i++ {
+		if data[i].id == target {
+			found = true
 			*a = *a - 1
-			
+
 			for j = i; j < *a; j++ {
 				data[j] = data[j+1]
-				data[i].id = data[i].id - 1
 			}
-				
+
+			for j = 0; j < *a; j++ {
+				if data[j].id > target {
+					data[j].id = data[j].id - 1
+				}
+			}
+
 			fmt.Printf("ID %d berhasil dihapus!\n", target)
 			return
 		}
 	}
-	if found == false{
-		fmt.Print("ID tidak ditemukan!")
+	if found == false {
+		fmt.Println("ID tidak ditemukan!")
 	}
 }
 
@@ -461,3 +468,51 @@ func SortRuanganAscend(data *daftar, a int){
 		data[idx] = temp
 	}
 }
+
+func SortKonsumsiDescend(data *daftar, a int){
+	var i, j, idx int
+	var temp perangkat
+	for i = 0; i < a - 1; i++ {
+		idx = i
+		for j = i + 1; j < a; j++ {
+			if data[j].watt > data[idx].watt {
+				idx = j
+			}
+		}
+		temp = data[i]
+		data[i] = data[idx]
+		data[idx] = temp
+	}
+}
+
+func menuSelection(data *daftar, a *int){
+	var pilih,i int
+	
+	fmt.Println()
+	fmt.Println("List data untuk diurutkan: ")
+	fmt.Println("1. Konsumsi Watt")
+	fmt.Println("2. Nama Perangkat ")
+	fmt.Println()
+	fmt.Print("Pilih Menu: ")
+	fmt.Scan(&pilih)
+	
+	switch pilih{
+		case 1:
+			SortKonsumsiDescend(data, *a)
+			fmt.Println()
+			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+			fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
+			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+
+			for i = 0; i < *a; i++ {
+				fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",data[i].id,data[i].nama,(data[i].watt*data[i].durasi),data[i].durasi,data[i].ruangan)
+			}
+
+			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+		//case 2:
+		//	......
+	}
+}
+
+
+
