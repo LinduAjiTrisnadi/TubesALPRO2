@@ -291,7 +291,7 @@ func apusData(data *daftar, a *int) {
 }
 
 func ubahData(data *daftar, a *int){
-	var i, j,  target int
+	var i,  target int
 	var found bool
 	
 	fmt.Println()
@@ -301,10 +301,6 @@ func ubahData(data *daftar, a *int){
 	for i = 0; i < *a; i++{
 		if data[i].id == target{
 			found =  true
-			for j = i; j < *a; j++ {
-				data[j] = data[j+1]
-				data[i].id = data[i].id + 1
-			}
 			
 			fmt.Print("Masukan nama perangkat: ")
 			fmt.Scan(&data[i].nama)
@@ -322,7 +318,7 @@ func ubahData(data *daftar, a *int){
 			return
 		}
 	}
-	if found == false{
+	if !found{
 		fmt.Print("ID tidak ditemukan!")
 	}
 }
@@ -570,6 +566,22 @@ func SortKonsumsiDescend(data *daftar, a int){
 	}
 }
 
+func SortNamaDescend(data *daftar, a int){
+	var i, j, idx int
+	var temp perangkat
+	for i = 0; i < a - 1; i++ {
+		idx = i
+		for j = i + 1; j < a; j++ {
+			if data[j].nama > data[idx].nama {
+				idx = j
+			}
+		}
+		temp = data[i]
+		data[i] = data[idx]
+		data[idx] = temp
+	}
+}
+
 func insertSortKonsumsi(data *daftar, a int) {
 	var i, j int
 	var temp perangkat
@@ -577,6 +589,20 @@ func insertSortKonsumsi(data *daftar, a int) {
 		temp = data[i]
 		j = i - 1
 		for j >= 0 && data[j].watt < temp.watt {
+			data[j+1] = data[j]
+			j = j - 1
+		}
+		data[j+1] = temp
+	}
+}
+
+func insertSortNama(data *daftar, a int) {
+	var i, j int
+	var temp perangkat
+	for i = 1; i < a; i++ {
+		temp = data[i]
+		j = i - 1
+		for j >= 0 && data[j].nama < temp.nama {
 			data[j+1] = data[j]
 			j = j - 1
 		}
@@ -608,8 +634,18 @@ func menuSelection(data *daftar, a *int){
 			}
 
 			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-		//case 2:
-		//	......
+		case 2:
+			SortNamaDescend(data, *a)
+			fmt.Println()
+			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+			fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
+			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+
+			for i = 0; i < *a; i++ {
+				fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",data[i].id,data[i].nama,(data[i].watt*data[i].durasi),data[i].durasi,data[i].ruangan)
+			}
+
+			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
 	}
 }
 
@@ -637,11 +673,47 @@ func menuInsertion(data *daftar, a *int){
 			}
 
 			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-		//case 2:
-		//	......
+		case 2:
+			insertSortNama(data, *a)
+			fmt.Println()
+			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+			fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
+			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+
+			for i = 0; i < *a; i++ {
+				fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",data[i].id,data[i].nama,(data[i].watt*data[i].durasi),data[i].durasi,data[i].ruangan)
+			}
+
+			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
 	}
 }
 
 func menuStatis(data *daftar, a *int){
+	var i, total, max int
+	if *a == 0 {
+    	fmt.Println("Data masih kosong!")
+    	return
+	}
 	
+	total = 0
+	max = 0
+	
+	for i = 0; i < *a; i++ {
+		total = total + (data[i].watt * data[i].durasi)
+	}
+	for i = 0; i < *a; i++ {
+		if data[i].watt * data[i].durasi > data[max].watt * data[max].durasi {
+			max = i
+		}
+	}
+	fmt.Println()
+	fmt.Printf("Total penggunaan Daya harian: %d W\n", total)
+	fmt.Println()
+	fmt.Println("Perangkat yang paling boros Energi:")
+	fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+	fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
+	fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+	fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",data[max].id,data[max].nama,(data[max].watt*data[max].durasi),data[max].durasi,data[max].ruangan)
+	fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+	}
 }
