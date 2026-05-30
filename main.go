@@ -21,7 +21,6 @@ func main() {
 		fmt.Println()
 		
 		fmt.Println("List Menu:")
-		fmt.Println()
 		fmt.Println("1. Cek data perangkat rumah")
 		fmt.Println("2. Keluar")
 		
@@ -48,7 +47,6 @@ func menuCekData(data *daftar, a *int){
 		fmt.Println("\nMENU CEK DATA PERANGKAT RUMAH")
 		fmt.Println()
 		fmt.Println("List Menu:")
-		fmt.Println()
 		fmt.Println("0. Isi terlebih dahulu datanya")
 		fmt.Println("1. Tampilkan data")
 		fmt.Println("2. Menambah/Menghapus/Mengubah data")
@@ -80,14 +78,13 @@ func menuCekData(data *daftar, a *int){
 	}
 }
 
-func menuCrud (data *daftar, a *int){
+func menuCrud(data *daftar, a *int){
 	var pilih int
 	
 	for{
 		fmt.Println("\nMENU CRUD")
 		fmt.Println()
 		fmt.Println("List Menu:")
-		fmt.Println()
 		fmt.Println("1. Menambah data")
 		fmt.Println("2. Menghapus data")
 		fmt.Println("3. Mengubah data")
@@ -100,7 +97,7 @@ func menuCrud (data *daftar, a *int){
 		switch pilih{
 		case 1:
 			if *a == 0 {
-				fmt.Println("Data masih kosong! isi terlebih dahulu datanya...")
+				fmt.Println("Data masih kosong! Memasuki isi terlebih dahulu datanya...")
 				awalData(data, a)
 			} else {
 				tambahData(data, a)
@@ -115,14 +112,13 @@ func menuCrud (data *daftar, a *int){
 	}
 }
 
-func menuSequBinary (data *daftar, a *int){
+func menuSequBinary(data *daftar, a *int){
 	var pilih int
 	
 	for{
 		fmt.Println("\nMENU Sequ/Binary")
 		fmt.Println()
 		fmt.Println("List Menu:")
-		fmt.Println()
 		fmt.Println("1. Sequential Search")
 		fmt.Println("2. Binary Search")
 		fmt.Println("3. Kembali")
@@ -142,14 +138,13 @@ func menuSequBinary (data *daftar, a *int){
 	}
 }
 
-func menuSelectInsert (data *daftar, a *int){
+func menuSelectInsert(data *daftar, a *int){
 	var pilih int
 	
 	for{
 		fmt.Println("\nMENU Select/Insert")
 		fmt.Println()
 		fmt.Println("List Menu:")
-		fmt.Println()
 		fmt.Println("1. Selection")
 		fmt.Println("2. Insertion Sort")
 		fmt.Println("3. Kembali")
@@ -168,7 +163,6 @@ func menuSelectInsert (data *daftar, a *int){
 		}
 	}
 }
-
 
 func tampilData(data *daftar, a *int){
 	var i int
@@ -291,7 +285,7 @@ func apusData(data *daftar, a *int) {
 }
 
 func ubahData(data *daftar, a *int){
-	var i,  target int
+	var i, target int
 	var found bool
 	
 	fmt.Println()
@@ -300,7 +294,7 @@ func ubahData(data *daftar, a *int){
 	
 	for i = 0; i < *a; i++{
 		if data[i].id == target{
-			found =  true
+			found = true
 			
 			fmt.Print("Masukan nama perangkat: ")
 			fmt.Scan(&data[i].nama)
@@ -318,7 +312,7 @@ func ubahData(data *daftar, a *int){
 			return
 		}
 	}
-	if !found{
+	if !found {
 		fmt.Print("ID tidak ditemukan!")
 	}
 }
@@ -393,9 +387,14 @@ func cariSequential(data *daftar, a *int){
 }
 
 func cariBinary(data *daftar, a *int){
-	var idx, pilih int
+	var idx, pilih, i int
 	var target string
 	var kiri, kanan, tengah, batasKanan, batasKiri int
+	var temp daftar
+
+	for i = 0; i < *a; i++ {
+		temp[i] = data[i]
+	}
 	
 	fmt.Println()
 	fmt.Println("List data yang ingin dicari: ")
@@ -407,7 +406,7 @@ func cariBinary(data *daftar, a *int){
 	
 	switch pilih{
 		case 1:
-			SortNamaAscend(data, *a)
+			SortNamaAscend(&temp, *a)
 			fmt.Println()
 			fmt.Print("Nama perangkat: ")
 			fmt.Scan(&target)
@@ -417,10 +416,10 @@ func cariBinary(data *daftar, a *int){
 			idx = -1
 			for kiri <= kanan {
 				tengah = (kiri + kanan) / 2
-				if data[tengah].nama == target {
+				if temp[tengah].nama == target {
 					idx = tengah
 					kanan = tengah - 1 
-				} else if data[tengah].nama < target {
+				} else if temp[tengah].nama < target {
 					kiri = tengah + 1
 				} else {
 					kanan = tengah - 1
@@ -433,10 +432,10 @@ func cariBinary(data *daftar, a *int){
 			idx = -1
 			for kiri <= kanan {
 				tengah = (kiri + kanan) / 2
-				if data[tengah].nama == target {
+				if temp[tengah].nama == target {
 					idx = tengah
 					kiri = tengah + 1 
-				} else if data[tengah].nama < target {
+				} else if temp[tengah].nama < target {
 					kiri = tengah + 1
 				} else {
 					kanan = tengah - 1
@@ -449,17 +448,17 @@ func cariBinary(data *daftar, a *int){
 				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
 				fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
 				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-				for i := batasKiri; i <= batasKanan; i++ {
+				for i = batasKiri; i <= batasKanan; i++ {
 					fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",
-					data[i].id, data[i].nama, (data[i].watt*data[i].durasi), data[i].durasi, data[i].ruangan)
+					temp[i].id, temp[i].nama, (temp[i].watt*temp[i].durasi), temp[i].durasi, temp[i].ruangan)
 				}
 				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
 			} else {
-				fmt.Println("Lokasi perangkat tidak ditemukan!")
+				fmt.Println("Nama perangkat tidak ditemukan!")
 			}
 			
 		case 2:
-			SortRuanganAscend(data, *a)
+			SortRuanganAscend(&temp, *a)
 			fmt.Println()
 			fmt.Print("Lokasi perangkat: ")
 			fmt.Scan(&target)
@@ -470,10 +469,10 @@ func cariBinary(data *daftar, a *int){
 			
 			for kiri <= kanan {
 				tengah = (kiri + kanan) / 2
-				if data[tengah].ruangan == target {
+				if temp[tengah].ruangan == target {
 					idx = tengah
 					kanan = tengah - 1 
-				} else if data[tengah].ruangan < target {
+				} else if temp[tengah].ruangan < target {
 					kiri = tengah + 1
 				} else {
 					kanan = tengah - 1
@@ -486,10 +485,10 @@ func cariBinary(data *daftar, a *int){
 			idx = -1
 			for kiri <= kanan {
 				tengah = (kiri + kanan) / 2
-				if data[tengah].ruangan == target {
+				if temp[tengah].ruangan == target {
 					idx = tengah
 					kiri = tengah + 1 
-				} else if data[tengah].ruangan < target {
+				} else if temp[tengah].ruangan < target {
 					kiri = tengah + 1
 				} else {
 					kanan = tengah - 1
@@ -502,9 +501,9 @@ func cariBinary(data *daftar, a *int){
 				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
 				fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
 				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-				for i := batasKiri; i <= batasKanan; i++ {
+				for i = batasKiri; i <= batasKanan; i++ {
 					fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",
-						data[i].id, data[i].nama, (data[i].watt*data[i].durasi), data[i].durasi, data[i].ruangan)
+						temp[i].id, temp[i].nama, (temp[i].watt*temp[i].durasi), temp[i].durasi, temp[i].ruangan)
 				}
 				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
 			} else {
@@ -611,7 +610,7 @@ func insertSortNama(data *daftar, a int) {
 }
 
 func menuSelection(data *daftar, a *int){
-	var pilih,i int
+	var pilih, i int
 	
 	fmt.Println()
 	fmt.Println("List data untuk diurutkan: ")
@@ -650,7 +649,7 @@ func menuSelection(data *daftar, a *int){
 }
 
 func menuInsertion(data *daftar, a *int){
-	var pilih,i int
+	var pilih, i int
 	
 	fmt.Println()
 	fmt.Println("List data untuk diurutkan: ")
@@ -691,8 +690,8 @@ func menuInsertion(data *daftar, a *int){
 func menuStatis(data *daftar, a *int){
 	var i, total, max int
 	if *a == 0 {
-    	fmt.Println("Data masih kosong!")
-    	return
+		fmt.Println("Data masih kosong!")
+		return
 	}
 	
 	total = 0
@@ -715,5 +714,4 @@ func menuStatis(data *daftar, a *int){
 	fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
 	fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",data[max].id,data[max].nama,(data[max].watt*data[max].durasi),data[max].durasi,data[max].ruangan)
 	fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-	}
 }
