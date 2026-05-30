@@ -21,6 +21,7 @@ func main() {
 		fmt.Println()
 		
 		fmt.Println("List Menu:")
+		fmt.Println()
 		fmt.Println("1. Cek data perangkat rumah")
 		fmt.Println("2. Keluar")
 		
@@ -44,19 +45,17 @@ func menuCekData(data *daftar, a *int){
 	var pilih int
 	
 	for{
-		fmt.Println()
-		fmt.Print("MENU CEK DATA PERANGKAT RUMAH")
+		fmt.Println("\nMENU CEK DATA PERANGKAT RUMAH")
 		fmt.Println()
 		fmt.Println("List Menu:")
+		fmt.Println()
 		fmt.Println("0. Isi terlebih dahulu datanya")
 		fmt.Println("1. Tampilkan data")
-		fmt.Println("2. Menambah data")
-		fmt.Println("3. Menghapus data")
-		fmt.Println("4. Mengubah data")
-		fmt.Println("5. Mencari data menggunakan (Sequential Search)")
-		fmt.Println("6. Mencari data menggunakan (Binary Search)")
-		fmt.Println("7. Mencari data tertinggi menggunakan(Selection)")
-		fmt.Println("8. Kembali")
+		fmt.Println("2. Menambah/Menghapus/Mengubah data")
+		fmt.Println("3. Mencari data menggunakan (Sequential/Binary Search)")
+		fmt.Println("4. Mencari data tertinggi menggunakan (Selection/Insertion Sort)")
+		fmt.Println("5. Tampilkan Statistik data perangkat")
+		fmt.Println("6. Kembali")
 		
 		fmt.Println()
 		fmt.Print("Pilih Menu: ")
@@ -68,27 +67,108 @@ func menuCekData(data *daftar, a *int){
 		case 1:
 			tampilData(data, a)
 		case 2:
+			menuCrud(data, a)
+		case 3:
+			menuSequBinary(data, a)
+		case 4:
+			menuSelectInsert(data, a)
+		case 5:
+			menuStatis(data, a)
+		case 6:
+			return
+		}
+	}
+}
+
+func menuCrud (data *daftar, a *int){
+	var pilih int
+	
+	for{
+		fmt.Println("\nMENU CRUD")
+		fmt.Println()
+		fmt.Println("List Menu:")
+		fmt.Println()
+		fmt.Println("1. Menambah data")
+		fmt.Println("2. Menghapus data")
+		fmt.Println("3. Mengubah data")
+		fmt.Println("4. Kembali")
+		
+		fmt.Println()
+		fmt.Print("Pilih Menu: ")
+		fmt.Scan(&pilih)
+		
+		switch pilih{
+		case 1:
 			if *a == 0 {
 				fmt.Println("Data masih kosong! Memasuki isi terlebih dahulu datanya...")
 				awalData(data, a)
 			} else {
 				tambahData(data, a)
 			}
-		case 3:
+		case 2:
 			apusData(data, a)
-		case 4:
+		case 3:
 			ubahData(data, a)
-		case 5:
-			cariSequential(data, a)
-		case 6:
-			cariBinary(data, a)
-		case 7:
-			menuSelection(data, a)
-		case 8:
+		case 4:
 			return
 		}
 	}
 }
+
+func menuSequBinary (data *daftar, a *int){
+	var pilih int
+	
+	for{
+		fmt.Println("\nMENU Sequ/Binary")
+		fmt.Println()
+		fmt.Println("List Menu:")
+		fmt.Println()
+		fmt.Println("1. Sequential Search")
+		fmt.Println("2. Binary Search")
+		fmt.Println("3. Kembali")
+		
+		fmt.Println()
+		fmt.Print("Pilih Menu: ")
+		fmt.Scan(&pilih)
+		
+		switch pilih{
+		case 1:
+			cariSequential(data, a)
+		case 2:
+			cariBinary(data, a)
+		case 3:
+			return
+		}
+	}
+}
+
+func menuSelectInsert (data *daftar, a *int){
+	var pilih int
+	
+	for{
+		fmt.Println("\nMENU Select/Insert")
+		fmt.Println()
+		fmt.Println("List Menu:")
+		fmt.Println()
+		fmt.Println("1. Selection")
+		fmt.Println("2. Insertion Sort")
+		fmt.Println("3. Kembali")
+		
+		fmt.Println()
+		fmt.Print("Pilih Menu: ")
+		fmt.Scan(&pilih)
+		
+		switch pilih{
+		case 1:
+			menuSelection(data, a)
+		case 2:
+			menuInsertion(data, a)
+		case 3:
+			return
+		}
+	}
+}
+
 
 func tampilData(data *daftar, a *int){
 	var i int
@@ -456,13 +536,16 @@ func SortNamaAscend(data *daftar, a int){
 func SortRuanganAscend(data *daftar, a int){
 	var i, j, idx int
 	var temp perangkat
+	
 	for i = 0; i < a - 1; i++ {
 		idx = i
+		
 		for j = i + 1; j < a; j++ {
 			if data[j].ruangan < data[idx].ruangan {
 				idx = j
 			}
 		}
+		
 		temp = data[i]
 		data[i] = data[idx]
 		data[idx] = temp
@@ -472,6 +555,7 @@ func SortRuanganAscend(data *daftar, a int){
 func SortKonsumsiDescend(data *daftar, a int){
 	var i, j, idx int
 	var temp perangkat
+	
 	for i = 0; i < a - 1; i++ {
 		idx = i
 		for j = i + 1; j < a; j++ {
@@ -479,9 +563,24 @@ func SortKonsumsiDescend(data *daftar, a int){
 				idx = j
 			}
 		}
+		
 		temp = data[i]
 		data[i] = data[idx]
 		data[idx] = temp
+	}
+}
+
+func insertSortKonsumsi(data *daftar, a int) {
+	var i, j int
+	var temp perangkat
+	for i = 1; i < a; i++ {
+		temp = data[i]
+		j = i - 1
+		for j >= 0 && data[j].watt < temp.watt {
+			data[j+1] = data[j]
+			j = j - 1
+		}
+		data[j+1] = temp
 	}
 }
 
@@ -514,5 +613,35 @@ func menuSelection(data *daftar, a *int){
 	}
 }
 
+func menuInsertion(data *daftar, a *int){
+	var pilih,i int
+	
+	fmt.Println()
+	fmt.Println("List data untuk diurutkan: ")
+	fmt.Println("1. Konsumsi Watt")
+	fmt.Println("2. Nama Perangkat ")
+	fmt.Println()
+	fmt.Print("Pilih Menu: ")
+	fmt.Scan(&pilih)
+	
+	switch pilih{
+		case 1:
+			insertSortKonsumsi(data, *a)
+			fmt.Println()
+			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+			fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
+			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
 
+			for i = 0; i < *a; i++ {
+				fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",data[i].id,data[i].nama,(data[i].watt*data[i].durasi),data[i].durasi,data[i].ruangan)
+			}
 
+			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+		//case 2:
+		//	......
+	}
+}
+
+func menuStatis(data *daftar, a *int){
+	
+}
