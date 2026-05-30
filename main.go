@@ -100,7 +100,7 @@ func menuCrud (data *daftar, a *int){
 		switch pilih{
 		case 1:
 			if *a == 0 {
-				fmt.Println("Data masih kosong! Memasuki isi terlebih dahulu datanya...")
+				fmt.Println("Data masih kosong! isi terlebih dahulu datanya...")
 				awalData(data, a)
 			} else {
 				tambahData(data, a)
