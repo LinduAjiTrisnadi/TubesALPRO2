@@ -14,8 +14,10 @@ type daftar [NMAX]perangkat
 func main() {
 	var pilih, a int
 	var data daftar
-
-	for {
+	var keluar bool
+	
+	keluar = false
+	for keluar == false{
 		fmt.Println()
 		fmt.Println("SELAMAT DATANG DI APLIKASI POWERLOG")
 		fmt.Println()
@@ -33,7 +35,7 @@ func main() {
 			menuCekData(&data, &a)
 		case 2:
 			fmt.Println("Terima kasih telah menggunakan aplikasi POWERLOG :)")
-			return
+			keluar = true
 		default:
 			fmt.Println("Pilihan tidak valid!")
 		}
@@ -42,8 +44,10 @@ func main() {
 
 func menuCekData(data *daftar, a *int){
 	var pilih int
+	var keluar bool
 	
-	for{
+	keluar = false
+	for keluar == false{
 		fmt.Println("\nMENU CEK DATA PERANGKAT RUMAH")
 		fmt.Println()
 		fmt.Println("List Menu:")
@@ -73,15 +77,17 @@ func menuCekData(data *daftar, a *int){
 		case 5:
 			menuStatis(data, a)
 		case 6:
-			return
+			keluar = true
 		}
 	}
 }
 
 func menuCrud(data *daftar, a *int){
 	var pilih int
+	var keluar bool
 	
-	for{
+	keluar = false
+	for keluar == false{
 		fmt.Println("\nMENU CRUD")
 		fmt.Println()
 		fmt.Println("List Menu:")
@@ -107,15 +113,17 @@ func menuCrud(data *daftar, a *int){
 		case 3:
 			ubahData(data, a)
 		case 4:
-			return
+			keluar = true
 		}
 	}
 }
 
 func menuSequBinary(data *daftar, a *int){
 	var pilih int
+	var keluar bool
 	
-	for{
+	keluar = false
+	for keluar == false{
 		fmt.Println("\nMENU Sequ/Binary")
 		fmt.Println()
 		fmt.Println("List Menu:")
@@ -133,15 +141,17 @@ func menuSequBinary(data *daftar, a *int){
 		case 2:
 			cariBinary(data, a)
 		case 3:
-			return
+			keluar = true
 		}
 	}
 }
 
 func menuSelectInsert(data *daftar, a *int){
 	var pilih int
+	var keluar bool
 	
-	for{
+	keluar = false
+	for keluar == false{
 		fmt.Println("\nMENU Select/Insert")
 		fmt.Println()
 		fmt.Println("List Menu:")
@@ -159,29 +169,27 @@ func menuSelectInsert(data *daftar, a *int){
 		case 2:
 			menuInsertion(data, a)
 		case 3:
-			return
+			keluar = true
 		}
 	}
 }
 
 func tampilData(data *daftar, a *int){
-	var i int
-
-	if *a == 0 {
-		fmt.Println()
-		fmt.Println("Data masih kosong!")
-		return
-	}
-	fmt.Println()
-	fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-	fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
-	fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-
-	for i = 0; i < *a; i++ {
-		fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",data[i].id,data[i].nama,(data[i].watt*data[i].durasi),data[i].durasi,data[i].ruangan)
-	}
-
-	fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+    var i int
+    
+    if *a == 0 {
+        fmt.Println()
+        fmt.Println("Data masih kosong!")
+    } else {
+        fmt.Println()
+        fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+        fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
+        fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+        for i = 0; i < *a; i++ {
+            fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",data[i].id,data[i].nama,(data[i].watt*data[i].durasi),data[i].durasi,data[i].ruangan)
+        }
+        fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+    }
 }
 
 func awalData(data *daftar, a *int){
@@ -217,85 +225,21 @@ func tambahData(data *daftar, a *int){
 
 	if *a == NMAX {
 		fmt.Println("Data penuh!")
-		return
-	}
+	}else{
+		for i = *a; i < *a + n; i++ {
 
-	for i = *a; i < *a + n; i++ {
-
-		fmt.Print("Masukan ID: ")
-		fmt.Scan(&data[i].id)
-		
-		for j = 0; j < i; j++ {
-			if data[i].id == data[j].id {
-				fmt.Println("Data duplikat, mohon inputkan data kembali!")
-				fmt.Println()
-				fmt.Print("Masukan ID: ")
-				fmt.Scan(&data[i].id)
-				j = -1 
-			}
-		}
-		fmt.Print("Masukan nama perangkat: ")
-		fmt.Scan(&data[i].nama)
-
-		fmt.Print("Masukan konsumsi Watt: ")
-		fmt.Scan(&data[i].watt)
-
-		fmt.Print("Masukan durasi Pemakaian: ")
-		fmt.Scan(&data[i].durasi)
-		
-		fmt.Print("Masukan lokasi ruangan perangkat: ")
-		fmt.Scan(&data[i].ruangan)
-		fmt.Println()
-	}
-
-	*a = i
-	fmt.Println("Data perangkat baru sudah ditambahkan!")
-}
-
-func apusData(data *daftar, a *int) {
-	var i, j, target int
-	var found bool
-
-	fmt.Println()
-	fmt.Print("Masukan ID yang dihapus: ")
-	fmt.Scan(&target)
-
-	for i = 0; i < *a; i++ {
-		if data[i].id == target {
-			found = true
-			*a = *a - 1
-
-			for j = i; j < *a; j++ {
-				data[j] = data[j+1]
-			}
-
-			for j = 0; j < *a; j++ {
-				if data[j].id > target {
-					data[j].id = data[j].id - 1
+			fmt.Print("Masukan ID: ")
+			fmt.Scan(&data[i].id)
+			
+			for j = 0; j < i; j++ {
+				if data[i].id == data[j].id {
+					fmt.Println("Data duplikat, mohon inputkan data kembali!")
+					fmt.Println()
+					fmt.Print("Masukan ID: ")
+					fmt.Scan(&data[i].id)
+					j = -1 
 				}
 			}
-
-			fmt.Printf("ID %d berhasil dihapus!\n", target)
-			return
-		}
-	}
-	if found == false {
-		fmt.Println("ID tidak ditemukan!")
-	}
-}
-
-func ubahData(data *daftar, a *int){
-	var i, target int
-	var found bool
-	
-	fmt.Println()
-	fmt.Print("Masukan ID yang ingin diubah: ")
-	fmt.Scan(&target)
-	
-	for i = 0; i < *a; i++{
-		if data[i].id == target{
-			found = true
-			
 			fmt.Print("Masukan nama perangkat: ")
 			fmt.Scan(&data[i].nama)
 
@@ -304,17 +248,86 @@ func ubahData(data *daftar, a *int){
 
 			fmt.Print("Masukan durasi Pemakaian: ")
 			fmt.Scan(&data[i].durasi)
-		
+			
 			fmt.Print("Masukan lokasi ruangan perangkat: ")
 			fmt.Scan(&data[i].ruangan)
-				
-			fmt.Printf("ID %d berhasil diubah!\n", target)
-			return
+			fmt.Println()
+			
+			
 		}
+		*a = i
+		fmt.Println("Data perangkat baru sudah ditambahkan!")
 	}
-	if !found {
-		fmt.Print("ID tidak ditemukan!")
-	}
+}
+
+func apusData(data *daftar, a *int) {
+    var i, j, target int
+    var found bool
+
+    fmt.Println()
+    fmt.Print("Masukan ID yang dihapus: ")
+    fmt.Scan(&target)
+
+    i = 0
+	found = false
+	
+    for i < *a && found == false {
+        if data[i].id == target {
+            found = true
+            *a = *a - 1
+
+            for j = i; j < *a; j++ {
+                data[j] = data[j+1]
+            }
+
+            for j = 0; j < *a; j++ {
+                if data[j].id > target {
+                    data[j].id = data[j].id - 1
+                }
+            }
+
+            fmt.Printf("ID %d berhasil dihapus!\n", target)
+        }
+        i = i + 1
+    }
+
+    if found == false {
+        fmt.Println("ID tidak ditemukan!")
+    }
+}
+
+func ubahData(data *daftar, a *int){
+    var i, target int
+    var found bool
+
+    fmt.Println()
+    fmt.Print("Masukan ID yang ingin diubah: ")
+    fmt.Scan(&target)
+
+    i = 0
+	found = false
+    for i < *a && found == false {
+        if data[i].id == target {
+            found = true
+
+            fmt.Print("Masukan nama perangkat: ")
+            fmt.Scan(&data[i].nama)
+            fmt.Print("Masukan konsumsi Watt: ")
+            fmt.Scan(&data[i].watt)
+            fmt.Print("Masukan durasi Pemakaian: ")
+            fmt.Scan(&data[i].durasi)
+
+            fmt.Print("Masukan lokasi ruangan perangkat: ")
+            fmt.Scan(&data[i].ruangan)
+
+            fmt.Printf("ID %d berhasil diubah!\n", target)
+        }
+        i = i + 1
+    }
+
+    if found == false {
+        fmt.Println("ID tidak ditemukan!")
+    }
 }
 
 func cariSequential(data *daftar, a *int){
@@ -688,30 +701,30 @@ func menuInsertion(data *daftar, a *int){
 }
 
 func menuStatis(data *daftar, a *int){
-	var i, total, max int
-	if *a == 0 {
-		fmt.Println("Data masih kosong!")
-		return
-	}
-	
-	total = 0
-	max = 0
-	
-	for i = 0; i < *a; i++ {
-		total = total + (data[i].watt * data[i].durasi)
-	}
-	for i = 0; i < *a; i++ {
-		if data[i].watt * data[i].durasi > data[max].watt * data[max].durasi {
-			max = i
-		}
-	}
-	fmt.Println()
-	fmt.Printf("Total penggunaan Daya harian: %d W\n", total)
-	fmt.Println()
-	fmt.Println("Perangkat yang paling boros Energi:")
-	fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-	fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
-	fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-	fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",data[max].id,data[max].nama,(data[max].watt*data[max].durasi),data[max].durasi,data[max].ruangan)
-	fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+    var i, total, max int
+
+    if *a == 0 {
+        fmt.Println("Data masih kosong!")
+    } else {
+        total = 0
+        max = 0
+
+        for i = 0; i < *a; i++ {
+            total = total + (data[i].watt * data[i].durasi)
+        }
+        for i = 0; i < *a; i++ {
+            if data[i].watt * data[i].durasi > data[max].watt * data[max].durasi {
+                max = i
+            }
+        }
+        fmt.Println()
+        fmt.Printf("Total penggunaan Daya harian: %d W\n", total)
+        fmt.Println()
+        fmt.Println("Perangkat yang paling boros Energi:")
+        fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+        fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
+        fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+        fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",data[max].id,data[max].nama,(data[max].watt*data[max].durasi),data[max].durasi,data[max].ruangan)
+        fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+    }
 }
