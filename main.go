@@ -193,71 +193,65 @@ func tampilData(data *daftar, a *int){
 }
 
 func awalData(data *daftar, a *int){
-	var i int
-	i = 0
-	
-	fmt.Println()
-	fmt.Print("Masukan ID: ")
-	fmt.Scan(&data[i].id)
-
-	fmt.Print("Masukan nama perangkat: ")
-	fmt.Scan(&data[i].nama)
-
-	fmt.Print("Masukan konsumsi Watt: ")
-	fmt.Scan(&data[i].watt)
-
-	fmt.Print("Masukan durasi Pemakaian: ")
-	fmt.Scan(&data[i].durasi)
-	
-	fmt.Print("Masukan lokasi ruangan perangkat: ")
-	fmt.Scan(&data[i].ruangan)
-
-	i = i + 1
-	*a = i
+    var i int
+    i = 0
+    
+    data[0].id = 1
+    data[0].nama = "Kipas"
+    data[0].watt = 4
+    data[0].durasi = 12
+    data[0].ruangan = "Ruang_tamu"
+    
+    i = i + 1
+    
+    data[1].id = 2
+    data[1].nama = "AC"
+    data[1].watt = 100
+    data[1].durasi = 12
+    data[1].ruangan = "Kamar_tidur"
+    
+    i = i + 1
+    
+    data[2].id = 3
+    data[2].nama = "TV"
+    data[2].watt = 20
+    data[2].durasi = 5
+    data[2].ruangan = "Ruang_tamu"
+    
+    i = i + 1
+    
+    *a = i
+    
+    fmt.Println()
+    fmt.Println("Data sudah terisi")
 }
 
 func tambahData(data *daftar, a *int){
-	var i, n, j int
-	fmt.Println()
-	fmt.Print("Mau berapa banyak data: ")
-	fmt.Scan(&n)
-	fmt.Println()
+    var i, n int
+    fmt.Println()
+    fmt.Print("Mau berapa banyak data: ")
+    fmt.Scan(&n)
+    fmt.Println()
 
-	if *a == NMAX {
-		fmt.Println("Data penuh!")
-	}else{
-		for i = *a; i < *a + n; i++ {
+    if *a == NMAX {
+        fmt.Println("Data penuh!")
+    } else {
+        for i = *a; i < *a + n; i++ {
+            data[i].id = i + 1  
 
-			fmt.Print("Masukan ID: ")
-			fmt.Scan(&data[i].id)
-			
-			for j = 0; j < i; j++ {
-				if data[i].id == data[j].id {
-					fmt.Println("Data duplikat, mohon inputkan data kembali!")
-					fmt.Println()
-					fmt.Print("Masukan ID: ")
-					fmt.Scan(&data[i].id)
-					j = -1 
-				}
-			}
-			fmt.Print("Masukan nama perangkat: ")
-			fmt.Scan(&data[i].nama)
-
-			fmt.Print("Masukan konsumsi Watt: ")
-			fmt.Scan(&data[i].watt)
-
-			fmt.Print("Masukan durasi Pemakaian: ")
-			fmt.Scan(&data[i].durasi)
-			
-			fmt.Print("Masukan lokasi ruangan perangkat: ")
-			fmt.Scan(&data[i].ruangan)
-			fmt.Println()
-			
-			
-		}
-		*a = i
-		fmt.Println("Data perangkat baru sudah ditambahkan!")
-	}
+            fmt.Print("Masukan nama perangkat: ")
+            fmt.Scan(&data[i].nama)
+            fmt.Print("Masukan konsumsi Watt: ")
+            fmt.Scan(&data[i].watt)
+            fmt.Print("Masukan durasi Pemakaian: ")
+            fmt.Scan(&data[i].durasi)
+            fmt.Print("Masukan lokasi ruangan perangkat: ")
+            fmt.Scan(&data[i].ruangan)
+            fmt.Println()
+        }
+        *a = i
+        fmt.Println("Data perangkat baru sudah ditambahkan!")
+    }
 }
 
 func apusData(data *daftar, a *int) {
@@ -333,69 +327,76 @@ func ubahData(data *daftar, a *int){
 func cariSequential(data *daftar, a *int){
 	var i, pilih int
 	var target string
-	var found bool
+	var found, keluar bool
 	
-	fmt.Println()
-	fmt.Println("List data yang ingin dicari: ")
-	fmt.Println("1. Nama perangkat")
-	fmt.Println("2. Lokasi ruang perangkat ")
-	fmt.Println()
-	fmt.Print("Pilih Menu: ")
-	fmt.Scan(&pilih)
+	keluar = false
 	
-	switch pilih{
-		case 1:
-			fmt.Println()
-			fmt.Print("Nama perangkat: ")
-			fmt.Scan(&target)
-			
-			found = false
-			
-			for i = 0; i < *a; i++ {
-				if data[i].nama == target {
-					if found == false {
-						fmt.Println()
-						fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-						fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
-						fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-						found = true
+	for keluar == false{
+		fmt.Println()
+		fmt.Println("List data yang ingin dicari: ")
+		fmt.Println("1. Nama perangkat")
+		fmt.Println("2. Lokasi ruang perangkat ")
+		fmt.Println("3. Kembali ")
+		fmt.Println()
+		fmt.Print("Pilih Menu: ")
+		fmt.Scan(&pilih)
+		
+		switch pilih{
+			case 1:
+				fmt.Println()
+				fmt.Print("Nama perangkat: ")
+				fmt.Scan(&target)
+				
+				found = false
+				
+				for i = 0; i < *a; i++ {
+					if data[i].nama == target {
+						if found == false {
+							fmt.Println()
+							fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+							fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
+							fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+							found = true
+						}
+						fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",
+						data[i].id, data[i].nama, (data[i].watt*data[i].durasi), data[i].durasi, data[i].ruangan)
 					}
-					fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",
-					data[i].id, data[i].nama, (data[i].watt*data[i].durasi), data[i].durasi, data[i].ruangan)
 				}
-			}
 
-			if found == true {
-				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-			} else {
-				fmt.Println("Nama perangkat tidak ditemukan!")
-			}
-		case 2:
-			fmt.Println()
-			fmt.Print("Lokasi perangkat: ")
-			fmt.Scan(&target)
-			
-			found = false
-			
-			for i = 0; i < *a; i++ {
-				if data[i].ruangan == target {
-					if found == false {
-						fmt.Println()
-						fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-						fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
-						fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-						found = true
+				if found == true {
+					fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+				} else {
+					fmt.Println("Nama perangkat tidak ditemukan!")
+				}
+			case 2:
+				fmt.Println()
+				fmt.Print("Lokasi perangkat: ")
+				fmt.Scan(&target)
+				
+				found = false
+				
+				for i = 0; i < *a; i++ {
+					if data[i].ruangan == target {
+						if found == false {
+							fmt.Println()
+							fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+							fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
+							fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+							found = true
+						}
+						fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",
+						data[i].id, data[i].nama, (data[i].watt*data[i].durasi), data[i].durasi, data[i].ruangan)
 					}
-					fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",
-					data[i].id, data[i].nama, (data[i].watt*data[i].durasi), data[i].durasi, data[i].ruangan)
 				}
-			}
 
-			if found == true {
-				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-			} else {
-				fmt.Println("Lokasi perangkat tidak ditemukan!")
-			}
+				if found == true {
+					fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+				} else {
+					fmt.Println("Lokasi perangkat tidak ditemukan!")
+				}
+			case 3:
+				keluar = true
+		}
 	}
 }
 
@@ -404,124 +405,132 @@ func cariBinary(data *daftar, a *int){
 	var target string
 	var kiri, kanan, tengah, batasKanan, batasKiri int
 	var temp daftar
-
+	var keluar bool
+	
+	keluar = false
+	
 	for i = 0; i < *a; i++ {
 		temp[i] = data[i]
 	}
 	
-	fmt.Println()
-	fmt.Println("List data yang ingin dicari: ")
-	fmt.Println("1. Nama perangkat")
-	fmt.Println("2. Lokasi ruang perangkat ")
-	fmt.Println()
-	fmt.Print("Pilih Menu: ")
-	fmt.Scan(&pilih)
-	
-	switch pilih{
-		case 1:
-			SortNamaAscend(&temp, *a)
-			fmt.Println()
-			fmt.Print("Nama perangkat: ")
-			fmt.Scan(&target)
-			
-			kiri = 0
-			kanan = *a - 1
-			idx = -1
-			for kiri <= kanan {
-				tengah = (kiri + kanan) / 2
-				if temp[tengah].nama == target {
-					idx = tengah
-					kanan = tengah - 1 
-				} else if temp[tengah].nama < target {
-					kiri = tengah + 1
-				} else {
-					kanan = tengah - 1
-				}
-			}
-			batasKiri = idx
-
-			kiri = 0
-			kanan = *a - 1
-			idx = -1
-			for kiri <= kanan {
-				tengah = (kiri + kanan) / 2
-				if temp[tengah].nama == target {
-					idx = tengah
-					kiri = tengah + 1 
-				} else if temp[tengah].nama < target {
-					kiri = tengah + 1
-				} else {
-					kanan = tengah - 1
-				}
-			}
-			batasKanan = idx
-
-			if batasKiri != -1 {
+	for keluar == false{
+		fmt.Println()
+		fmt.Println("List data yang ingin dicari: ")
+		fmt.Println("1. Nama perangkat")
+		fmt.Println("2. Lokasi ruang perangkat ")
+		fmt.Println("3. Kembali ")
+		fmt.Println()
+		fmt.Print("Pilih Menu: ")
+		fmt.Scan(&pilih)
+		
+		switch pilih{
+			case 1:
+				SortNamaAscend(&temp, *a)
 				fmt.Println()
-				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-				fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
-				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-				for i = batasKiri; i <= batasKanan; i++ {
-					fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",
-					temp[i].id, temp[i].nama, (temp[i].watt*temp[i].durasi), temp[i].durasi, temp[i].ruangan)
+				fmt.Print("Nama perangkat: ")
+				fmt.Scan(&target)
+				
+				kiri = 0
+				kanan = *a - 1
+				idx = -1
+				for kiri <= kanan {
+					tengah = (kiri + kanan) / 2
+					if temp[tengah].nama == target {
+						idx = tengah
+						kanan = tengah - 1 
+					} else if temp[tengah].nama < target {
+						kiri = tengah + 1
+					} else {
+						kanan = tengah - 1
+					}
 				}
-				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-			} else {
-				fmt.Println("Nama perangkat tidak ditemukan!")
-			}
-			
-		case 2:
-			SortRuanganAscend(&temp, *a)
-			fmt.Println()
-			fmt.Print("Lokasi perangkat: ")
-			fmt.Scan(&target)
-			
-			kiri = 0
-			kanan = *a - 1
-			idx = -1
-			
-			for kiri <= kanan {
-				tengah = (kiri + kanan) / 2
-				if temp[tengah].ruangan == target {
-					idx = tengah
-					kanan = tengah - 1 
-				} else if temp[tengah].ruangan < target {
-					kiri = tengah + 1
-				} else {
-					kanan = tengah - 1
-				}
-			}
-			batasKiri = idx
+				batasKiri = idx
 
-			kiri = 0
-			kanan = *a - 1
-			idx = -1
-			for kiri <= kanan {
-				tengah = (kiri + kanan) / 2
-				if temp[tengah].ruangan == target {
-					idx = tengah
-					kiri = tengah + 1 
-				} else if temp[tengah].ruangan < target {
-					kiri = tengah + 1
-				} else {
-					kanan = tengah - 1
+				kiri = 0
+				kanan = *a - 1
+				idx = -1
+				for kiri <= kanan {
+					tengah = (kiri + kanan) / 2
+					if temp[tengah].nama == target {
+						idx = tengah
+						kiri = tengah + 1 
+					} else if temp[tengah].nama < target {
+						kiri = tengah + 1
+					} else {
+						kanan = tengah - 1
+					}
 				}
-			}
-			batasKanan = idx
+				batasKanan = idx
 
-			if batasKiri != -1 {
-				fmt.Println()
-				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-				fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
-				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-				for i = batasKiri; i <= batasKanan; i++ {
-					fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",
+				if batasKiri != -1 {
+					fmt.Println()
+					fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+					fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
+					fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+					for i = batasKiri; i <= batasKanan; i++ {
+						fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",
 						temp[i].id, temp[i].nama, (temp[i].watt*temp[i].durasi), temp[i].durasi, temp[i].ruangan)
+					}
+					fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+				} else {
+					fmt.Println("Nama perangkat tidak ditemukan!")
 				}
-				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-			} else {
-				fmt.Println("Lokasi perangkat tidak ditemukan!")
-			}
+				
+			case 2:
+				SortRuanganAscend(&temp, *a)
+				fmt.Println()
+				fmt.Print("Lokasi perangkat: ")
+				fmt.Scan(&target)
+				
+				kiri = 0
+				kanan = *a - 1
+				idx = -1
+				
+				for kiri <= kanan {
+					tengah = (kiri + kanan) / 2
+					if temp[tengah].ruangan == target {
+						idx = tengah
+						kanan = tengah - 1 
+					} else if temp[tengah].ruangan < target {
+						kiri = tengah + 1
+					} else {
+						kanan = tengah - 1
+					}
+				}
+				batasKiri = idx
+
+				kiri = 0
+				kanan = *a - 1
+				idx = -1
+				for kiri <= kanan {
+					tengah = (kiri + kanan) / 2
+					if temp[tengah].ruangan == target {
+						idx = tengah
+						kiri = tengah + 1 
+					} else if temp[tengah].ruangan < target {
+						kiri = tengah + 1
+					} else {
+						kanan = tengah - 1
+					}
+				}
+				batasKanan = idx
+
+				if batasKiri != -1 {
+					fmt.Println()
+					fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+					fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
+					fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+					for i = batasKiri; i <= batasKanan; i++ {
+						fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",
+							temp[i].id, temp[i].nama, (temp[i].watt*temp[i].durasi), temp[i].durasi, temp[i].ruangan)
+					}
+					fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+				} else {
+					fmt.Println("Lokasi perangkat tidak ditemukan!")
+				}
+			case 3:
+				keluar = true
+		}
 	}
 }
 
@@ -624,80 +633,99 @@ func insertSortNama(data *daftar, a int) {
 
 func menuSelection(data *daftar, a *int){
 	var pilih, i int
+	var keluar bool
 	
-	fmt.Println()
-	fmt.Println("List data untuk diurutkan: ")
-	fmt.Println("1. Konsumsi Watt")
-	fmt.Println("2. Nama Perangkat ")
-	fmt.Println()
-	fmt.Print("Pilih Menu: ")
-	fmt.Scan(&pilih)
+	keluar = false
 	
-	switch pilih{
-		case 1:
-			SortKonsumsiDescend(data, *a)
-			fmt.Println()
-			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-			fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
-			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+	for keluar == false{
+			
+		fmt.Println()
+		fmt.Println("List data untuk diurutkan: ")
+		fmt.Println("1. Konsumsi Watt")
+		fmt.Println("2. Nama Perangkat ")
+		fmt.Println("3. Kembali ")
+		fmt.Println()
+		fmt.Print("Pilih Menu: ")
+		fmt.Scan(&pilih)
+		
+		switch pilih{
+			case 1:
+				SortKonsumsiDescend(data, *a)
+				fmt.Println()
+				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+				fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
+				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
 
-			for i = 0; i < *a; i++ {
-				fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",data[i].id,data[i].nama,(data[i].watt*data[i].durasi),data[i].durasi,data[i].ruangan)
-			}
+				for i = 0; i < *a; i++ {
+					fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",data[i].id,data[i].nama,(data[i].watt*data[i].durasi),data[i].durasi,data[i].ruangan)
+				}
 
-			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-		case 2:
-			SortNamaDescend(data, *a)
-			fmt.Println()
-			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-			fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
-			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+			case 2:
+				SortNamaDescend(data, *a)
+				fmt.Println()
+				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+				fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
+				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
 
-			for i = 0; i < *a; i++ {
-				fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",data[i].id,data[i].nama,(data[i].watt*data[i].durasi),data[i].durasi,data[i].ruangan)
-			}
+				for i = 0; i < *a; i++ {
+					fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",data[i].id,data[i].nama,(data[i].watt*data[i].durasi),data[i].durasi,data[i].ruangan)
+				}
 
-			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+			case 3:
+				keluar = true
+		}
 	}
 }
 
 func menuInsertion(data *daftar, a *int){
 	var pilih, i int
+	var keluar bool
 	
-	fmt.Println()
-	fmt.Println("List data untuk diurutkan: ")
-	fmt.Println("1. Konsumsi Watt")
-	fmt.Println("2. Nama Perangkat ")
-	fmt.Println()
-	fmt.Print("Pilih Menu: ")
-	fmt.Scan(&pilih)
+	keluar = false
 	
-	switch pilih{
-		case 1:
-			insertSortKonsumsi(data, *a)
-			fmt.Println()
-			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-			fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
-			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+	for keluar == false{
+		
+		fmt.Println()
+		fmt.Println("List data untuk diurutkan: ")
+		fmt.Println("1. Konsumsi Watt")
+		fmt.Println("2. Nama Perangkat ")
+		fmt.Println("3. Kembali ")
+		fmt.Println()
+		fmt.Print("Pilih Menu: ")
+		fmt.Scan(&pilih)
+		
+		switch pilih{
+			case 1:
+				insertSortKonsumsi(data, *a)
+				fmt.Println()
+				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+				fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
+				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
 
-			for i = 0; i < *a; i++ {
-				fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",data[i].id,data[i].nama,(data[i].watt*data[i].durasi),data[i].durasi,data[i].ruangan)
-			}
+				for i = 0; i < *a; i++ {
+					fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",data[i].id,data[i].nama,(data[i].watt*data[i].durasi),data[i].durasi,data[i].ruangan)
+				}
 
-			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-		case 2:
-			insertSortNama(data, *a)
-			fmt.Println()
-			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
-			fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
-			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+			case 2:
+				insertSortNama(data, *a)
+				fmt.Println()
+				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+				fmt.Println("| ID    | Nama Perangkat         | Konsumsi Watt   | Durasi Pemakaian   | Lokasi Ruangan Perangkat |")
+				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
 
-			for i = 0; i < *a; i++ {
-				fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",data[i].id,data[i].nama,(data[i].watt*data[i].durasi),data[i].durasi,data[i].ruangan)
-			}
+				for i = 0; i < *a; i++ {
+					fmt.Printf("| %-5d | %-22s | %-14dW | %-15dJam | %-24s |\n",data[i].id,data[i].nama,(data[i].watt*data[i].durasi),data[i].durasi,data[i].ruangan)
+				}
 
-			fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+				fmt.Println("+-------+------------------------+-----------------+--------------------+--------------------------+")
+			case 3:
+				keluar = true
+		}
 	}
+	
 }
 
 func menuStatis(data *daftar, a *int){
