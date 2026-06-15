@@ -51,7 +51,9 @@ func menuCekData(data *daftar, a *int){
 		fmt.Println("\nMENU CEK DATA PERANGKAT RUMAH")
 		fmt.Println()
 		fmt.Println("List Menu:")
-		fmt.Println("0. Isi terlebih dahulu datanya")
+		if *a <= 0{
+			fmt.Println("0. Isi terlebih dahulu datanya")
+		}
 		fmt.Println("1. Tampilkan data")
 		fmt.Println("2. Menambah/Menghapus/Mengubah data")
 		fmt.Println("3. Mencari data menggunakan (Sequential/Binary Search)")
@@ -193,8 +195,6 @@ func tampilData(data *daftar, a *int){
 }
 
 func awalData(data *daftar, a *int){
-    var i int
-    i = 0
     
     data[0].id = 1
     data[0].nama = "Kipas"
@@ -202,15 +202,11 @@ func awalData(data *daftar, a *int){
     data[0].durasi = 12
     data[0].ruangan = "Ruang_tamu"
     
-    i = i + 1
-    
     data[1].id = 2
     data[1].nama = "AC"
     data[1].watt = 100
     data[1].durasi = 12
     data[1].ruangan = "Kamar_tidur"
-    
-    i = i + 1
     
     data[2].id = 3
     data[2].nama = "TV"
@@ -218,9 +214,7 @@ func awalData(data *daftar, a *int){
     data[2].durasi = 5
     data[2].ruangan = "Ruang_tamu"
     
-    i = i + 1
-    
-    *a = i
+    *a = 3
     
     fmt.Println()
     fmt.Println("Data sudah terisi")
@@ -243,7 +237,7 @@ func tambahData(data *daftar, a *int){
             fmt.Scan(&data[i].nama)
             fmt.Print("Masukan konsumsi Watt: ")
             fmt.Scan(&data[i].watt)
-            fmt.Print("Masukan durasi Pemakaian: ")
+            fmt.Print("Masukan durasi Pemakaian (perjam): ")
             fmt.Scan(&data[i].durasi)
             fmt.Print("Masukan lokasi ruangan perangkat: ")
             fmt.Scan(&data[i].ruangan)
